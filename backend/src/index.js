@@ -3,10 +3,11 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-
-import { connectDB } from './lib/db.js';
+import morgan from 'morgan';
 
 import authRoutes from './routes/auth.route.js';
+import { connectDB } from './lib/db.js';
+
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -22,6 +23,9 @@ app.use(
   })
 );
 
+//remove it in production
+app.use(morgan("dev"));
+
 app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
@@ -30,5 +34,5 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
   console.log("server is running on PORT:" + PORT);
-  connectDB();
+  // connectDB();
 });

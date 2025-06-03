@@ -8,7 +8,7 @@ router.post('/signup', signup);
 router.post('/login', login);
 router.post('/logout', logout);
 
-// access key to other routes
+// access key to authenticated routes
 router.get('/check', protectRoute, checkAuth);
 
 export default router;

@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 export const createToken = (userId, res) => {
 
     // jwt.sign() generates a token
-    const token = jwt.sign({userId}, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
         expiresIn: '1d',
-    })
+    });
 
     // stores token in a cookie 
     res.cookie('jwt', token, {
@@ -13,7 +13,7 @@ export const createToken = (userId, res) => {
         httpOnly: true,
         sameSite: 'strict',
         secure: process.env.NODE_ENV !== 'development'
-    })
+    });
 
-    return token
+    return token;
 }
