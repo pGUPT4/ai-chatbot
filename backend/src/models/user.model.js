@@ -54,3 +54,24 @@ export const createUser = async (userData) => {
   );
   return { id, email };
 };
+
+export const createChat = async (chatData) => {
+  const pool = await connectDB();
+  const { id, user_id, role, content } = chatData;
+  await pool.query(
+    'INSERT INTO chats (id, user_id, role, content) VALUES (?, ?, ?, ?)',
+    [id || uuidv4(), user_id, role, content]
+  );
+  return { id: id || uuidv4(), user_id, role, content };
+};
+
+export const findChatsByUserId = async (userId) => {
+  const pool = await connectDB();
+  const [rows] = await pool.query('SELECT id, role, content FROM chats WHERE user_id = ?', [userId]);
+  return rows;
+};
+
+export const deleteChatsByUserId = async (userId) => {
+  const pool = await connectDB();
+  await pool.query('DELETE FROM chats WHERE user_id = ?', [userId]);
+};

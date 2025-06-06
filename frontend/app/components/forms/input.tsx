@@ -46,7 +46,7 @@ export default function Input({
 			<div className='mt-2'>
 				<input
 					id={labelId}
-					className='w-full p-2 mb-4 border text-black rounded'
+					className='w-full p-2 mb-4 border text-white rounded'
 					name={labelId}
 					type={type}
 					onChange={onChange}

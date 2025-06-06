@@ -6,7 +6,7 @@ import path from 'path';
 import morgan from 'morgan';
 
 import authRoutes from './routes/auth.route.js';
-import { connectDB } from './lib/db.js';
+import chatRoutes from './routes/chat.route.js';
 
 dotenv.config();
 
@@ -27,6 +27,7 @@ app.use(
 app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes)
 
 app.get('/', (req, res) => {
   res.send('Test!')
@@ -34,5 +35,4 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
   console.log("server is running on PORT:" + PORT);
-  // connectDB();
 });
