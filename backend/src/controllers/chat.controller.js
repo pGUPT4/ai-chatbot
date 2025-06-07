@@ -3,7 +3,7 @@ import { configureOpenAI } from "../config/openai-config.js";
 import { OpenAIApi } from "openai";
 import { v4 as uuidv4 } from "uuid";
 
-export const generateChatCompletion = async (req, res) => {
+export const createChat = async (req, res) => {
   const { message } = req.body;
   try {
     const user = req.user;
@@ -49,7 +49,7 @@ export const generateChatCompletion = async (req, res) => {
   }
 };
 
-export const sendChatsToUser = async (req, res) => {
+export const getChats = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
