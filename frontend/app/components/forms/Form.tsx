@@ -1,3 +1,4 @@
+// frontend/src/components/Form.tsx
 import { ChangeEvent, FormEvent, ReactNode } from 'react';
 import Input from './input';
 
@@ -7,31 +8,43 @@ interface Config {
   type: string;
   value: string;
   required?: boolean;
+  isPassword?: boolean;
+  icon?: React.ReactNode;
 }
 
 interface Props {
   config: Config[];
   formHeader: string;
+  formSubtext: string;
   btnText: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  children?: ReactNode; // Add children prop to accept <p> tag
+  children?: ReactNode;
 }
 
 export default function Form({
   config,
   formHeader,
+  formSubtext,
   btnText,
   onChange,
   onSubmit,
-  children, // Destructure children
+  children,
 }: Props) {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="inline-flex flex-col items-center justify-center">
-        <form className="bg-slate-800 p-6 rounded-lg shadow-lg w-xl" onSubmit={onSubmit}>
-          <h1 className="text-2xl font-bold mb-4">{formHeader}</h1>
-          {config.map(input => (
+    <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 bg-gray-900">
+      <div className="w-full max-w-md space-y-8">
+        {/* Header and Subtext */}
+        <div className="text-center mb-8">
+          <div className="flex flex-col items-center gap-2">
+            <h1 className="text-2xl font-bold text-white">{formHeader}</h1>
+            <p className="text-gray-400">{formSubtext}</p>
+          </div>
+        </div>
+
+        {/* Form without Box */}
+        <form onSubmit={onSubmit} className="space-y-6">
+          {config.map((input) => (
             <Input
               key={input.labelId}
               labelId={input.labelId}
@@ -39,19 +52,21 @@ export default function Form({
               onChange={onChange}
               value={input.value}
               required={input.required}
+              isPassword={input.isPassword}
+              icon={input.icon}
             >
               {input.labelText}
             </Input>
           ))}
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              {btnText}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
+          >
+            {btnText}
+          </button>
         </form>
+
+        {/* Link Section */}
         {children}
       </div>
     </div>

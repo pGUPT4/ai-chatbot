@@ -1,12 +1,14 @@
 import { findUserById, findChatsByUserId, createChat, deleteChatsByUserId } from "../models/user.model.js";
-import { configureOpenAI } from "../config/openai-config.js";
+import { configureOpenAI } from "../lib/openai-config.js";
 import { OpenAIApi } from "openai";
 import { v4 as uuidv4 } from "uuid";
 
-export const createChat = async (req, res) => {
+
+export const generateChat = async (req, res) => {
   const { message } = req.body;
   try {
     const user = req.user;
+    
     if (!user) {
       return res.status(401).json({ message: "User not registered OR Token malfunctioned" });
     }

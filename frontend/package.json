@@ -9,13 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@mui/material": "^7.1.1",
+    "@mui/material-nextjs": "^7.1.1",
     "@reduxjs/toolkit": "^2.8.1",
     "axios": "^1.9.0",
     "firebase": "^11.8.1",
+    "lodash": "^4.17.21",
+    "lucide": "^0.513.0",
+    "lucide-react": "^0.513.0",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-cookie": "^8.0.1",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.0",
     "react-toastify": "^11.0.5"
@@ -23,9 +31,11 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.17",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "daisyui": "^5.0.43",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "tailwindcss": "^4",

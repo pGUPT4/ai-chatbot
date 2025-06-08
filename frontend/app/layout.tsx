@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Provider  from '@/redux/provider'
-import RequireAuth from "./utils/RequireAuth";
+// import RequireAuth from "./utils/RequireAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MERN Form Frontend",
+  title: "AI ChatBot",
   description: "",
 };
 
@@ -30,10 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >    
       <Provider>
-        {children}  
-        {/* <RequireAuth>
-          {children}  
-        </RequireAuth> */}
+        {children}
       </Provider>
       </body>
     </html>
