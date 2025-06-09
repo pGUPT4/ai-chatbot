@@ -1,4 +1,3 @@
-// frontend/src/components/Form.tsx
 import { ChangeEvent, FormEvent, ReactNode } from 'react';
 import Input from './input';
 
@@ -32,7 +31,7 @@ export default function Form({
   children,
 }: Props) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 bg-gray-800">
       <div className="w-full max-w-md space-y-8">
         {/* Header and Subtext */}
         <div className="text-center mb-8">

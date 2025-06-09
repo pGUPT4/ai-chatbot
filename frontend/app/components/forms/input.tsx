@@ -1,4 +1,3 @@
-// frontend/src/components/Input.tsx
 import { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';

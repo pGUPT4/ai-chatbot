@@ -1,49 +1,16 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import { useCreateChatMutation } from '../../redux/features/chatApiSlice';
-import { useLoginMutation } from '../../redux/features/authApiSlice';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../redux/features/authSlice';
 
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { useGetChatsMutation } from '../../redux/features/chatApiSlice';
+
+// GET all chats
 export default function useChatAll() {
     const dispatch = useDispatch();
-	const router = useRouter();
+    const router = useRouter();
 
-    const [login, {isLoading}] = useLoginMutation();
+    const [getChats, { isLoading }] = useGetChatsMutation();
 
-	const [inputValue, setInputValue] = useState({
-		email: '',
-		password: '',
-	});
+    // cowboy moment
 
-	const { email, password } = inputValue;
 
-	const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-
-		setInputValue({ ...inputValue, [name]: value });
-	};
-
-	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-        login({ email, password })
-            .unwrap()
-            .then(() => {
-                dispatch(setAuth());
-                toast.success('Logged in');
-                router.push('/');
-            })
-            .catch(() => {
-                toast.error('Failed to log in');
-            });
-	};
-
-	return {
-		email,
-		password,
-		onChange,
-		onSubmit,
-	};
-}
+};

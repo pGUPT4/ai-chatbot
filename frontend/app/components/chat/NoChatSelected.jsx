@@ -1,3 +1,5 @@
+import MessageInput from "./MessageInput";
+
 const NoChatSelected = () => {
   return (
     <div className="w-full flex flex-1 flex-col items-center justify-center p-16 bg-base-100/50">
@@ -9,12 +11,11 @@ const NoChatSelected = () => {
         </div>
 
         {/* Welcome Text */}
-        <h2 className="text-2xl font-bold">Welcome to Chat App!</h2>
-        <p className="text-base-content/60">
-          Select a conversation from the sidebar to start chatting
-        </p>
+        <h2 className="text-2xl font-bold">Welcome to AI ChatBot!</h2>
       </div>
+      <MessageInput value = {''} onChange={() => {}} onSubmit={() => {}} />
     </div>
+    
   );
 };
 

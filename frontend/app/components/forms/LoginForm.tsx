@@ -31,6 +31,7 @@ export default function LoginForm() {
         config={config}
         btnText="Login"
         formHeader="Login"
+        formSubtext="Login to Access Your Chats"
         onChange={onChange}
         onSubmit={onSubmit}
       >

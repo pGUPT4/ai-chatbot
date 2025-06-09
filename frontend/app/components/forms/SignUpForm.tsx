@@ -37,6 +37,7 @@ export default function RegisterForm() {
       <Form
         config={config}
         formHeader="Register"
+        formSubtext="Create your account to get started"
         btnText="Sign up"
         onChange={onChange}
         onSubmit={onSubmit}

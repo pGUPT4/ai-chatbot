@@ -1,37 +1,24 @@
 import { X } from 'lucide-react';
 
 interface User {
-  _id: string;
-  fullName: string;
-  profilePic?: string;
+  id: string;
+  email: string;
 }
 
 interface Props {
   selectedUser: User;
   setSelectedUser: (user: User | null) => void;
-  isOnline: boolean;
 }
 
-const ChatHeader = ({ selectedUser, setSelectedUser, isOnline }: Props) => {
+const ChatHeader = ({ selectedUser, setSelectedUser }: Props) => {
   return (
     <div className="p-2.5 border-b border-gray-700">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {/* Avatar */}
-          <div className="w-10 h-10 rounded-full relative">
-            <img
-              src={selectedUser.profilePic || '/avatar.png'}
-              alt={selectedUser.fullName}
-              className="w-full h-full rounded-full object-cover"
-            />
-          </div>
 
           {/* User info */}
           <div>
-            <h3 className="font-medium text-white">{selectedUser.fullName}</h3>
-            <p className="text-sm text-gray-400">
-              {isOnline ? 'Online' : 'Offline'}
-            </p>
+            <h3 className="font-medium text-white">{selectedUser.email}</h3>
           </div>
         </div>
 

@@ -5,6 +5,9 @@ import ChatHeader from './ChatHeader';
 import MessageInput from './MessageInput';
 import MessageSkeleton from './skeleton/MessageSkeleton';
 import { toast } from 'react-toastify';
+import {useChatCreate} from '../../hooks';
+import { useAppSelector } from '@/redux/store';
+import { useRouter } from 'next/navigation';
 
 interface Message {
   _id: string;
@@ -15,80 +18,37 @@ interface Message {
 }
 
 interface User {
-  _id: string;
-  fullName: string;
-  profilePic?: string;
+  id: string;
+  email: string;
 }
 
 const ChatContainer = () => {
+  const router = useRouter();
+
+  const {message, onChange, onSubmit} = useChatCreate();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  
   const [messages, setMessages] = useState<Message[]>([]);
   const [isMessagesLoading, setIsMessagesLoading] = useState(true);
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [selectedUser, setSelectedUser] = useState<User>({
-    _id: 'user2',
-    fullName: 'Jane Doe',
-    profilePic: '/avatar.png',
+    id: 'user2',
+    email: 'Jane Doe'
   }); // Mocked selected user
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Fetch authenticated user (mocked for simplicity)
   useEffect(() => {
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('jwt='))
-      ?.split('=')[1];
-    if (token) {
-      setAuthUser({
-        _id: 'user1',
-        fullName: 'John Doe',
-        profilePic: '/avatar.png',
-      });
-    }
-  }, []);
-
-  // Fetch messages
-  useEffect(() => {
-    if (!selectedUser._id) return;
-
-    const fetchMessages = async () => {
-      setIsMessagesLoading(true);
-      try {
-        const response = await fetch('http://localhost:5000/api/chat/all-chats', {
-          method: 'GET',
-          credentials: 'include',
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch messages');
-        }
-        const data = await response.json();
-        setMessages(data.chats || []);
-      } catch (err) {
-        console.error(err);
-        toast.error('Error fetching messages');
-      } finally {
-        setIsMessagesLoading(false);
-      }
-    };
-
-    fetchMessages();
-  }, [selectedUser._id]);
-
-  // Scroll to bottom on new messages
-  useEffect(() => {
-    if (messageEndRef.current && messages) {
-      messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
-
-  // Mocked online status (since we don't have onlineUsers)
-  const isOnline = true;
+		if (isAuthenticated == false) {
+			router.push('/auth/login');
+		}
+	}, [isAuthenticated, router]);
 
   if (isMessagesLoading) {
     return (
       <div className="flex-1 flex flex-col overflow-auto">
-        <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} isOnline={isOnline} />
+        <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
         <MessageSkeleton />
-        <MessageInput setMessages={setMessages} />
+        <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />
       </div>
     );
   }
@@ -101,7 +61,7 @@ const ChatContainer = () => {
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
-      <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} isOnline={isOnline} />
+      <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
@@ -131,13 +91,6 @@ const ChatContainer = () => {
                       : 'bg-gray-600 text-white'
                   }`}
                 >
-                  {message.image && (
-                    <img
-                      src={message.image}
-                      alt="Attachment"
-                      className="sm:max-w-[200px] rounded-md mb-2"
-                    />
-                  )}
                   {message.text && <p>{message.text}</p>}
                 </div>
               </div>
@@ -155,7 +108,7 @@ const ChatContainer = () => {
         ))}
       </div>
 
-      <MessageInput setMessages={setMessages} />
+      <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />
     </div>
   );
 };
