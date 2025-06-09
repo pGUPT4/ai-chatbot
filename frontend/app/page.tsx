@@ -1,6 +1,6 @@
 'use client'
 
-import { useDispatch } from "react-redux";
+
 import ChatContainer from "./components/chat/ChatContainer";
 import Navbar from "./components/nav/navbar";
 import NoChatSelected from "./components/chat/NoChatSelected";
@@ -23,7 +23,5 @@ export default function Home() {
           </div>
       </div>
     </div> 
-      
-
   );
 }

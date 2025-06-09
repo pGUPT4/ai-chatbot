@@ -15,11 +15,6 @@ const ChatHeader = ({ selectedUser, setSelectedUser }: Props) => {
     <div className="p-2.5 border-b border-gray-700">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-
-          {/* User info */}
-          <div>
-            <h3 className="font-medium text-white">{selectedUser.email}</h3>
-          </div>
         </div>
 
         {/* Close button */}

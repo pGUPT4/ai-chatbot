@@ -27,14 +27,9 @@ const ChatContainer = () => {
 
   const {message, onChange, onSubmit} = useChatCreate();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
-  
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [isMessagesLoading, setIsMessagesLoading] = useState(true);
-  const [authUser, setAuthUser] = useState<User | null>(null);
-  const [selectedUser, setSelectedUser] = useState<User>({
-    id: 'user2',
-    email: 'Jane Doe'
-  }); // Mocked selected user
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

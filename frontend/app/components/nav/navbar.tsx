@@ -2,40 +2,32 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import { LogOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '@/redux/store';
-import { useLogout } from '@/app/hooks';
+import { useLogoutMutation } from '@/redux/features/authApiSlice';
+import { useDispatch } from 'react-redux';
+import { setLogout } from '@/redux/features/authSlice';
+
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [authUser, setAuthUser] = useState<boolean>(false);
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
-  
-  const {onClick} = useLogout();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated )
+  const [logout] = useLogoutMutation();
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/api/auth/logout', {
-  //       method: 'POST',
-  //       credentials: 'include',
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Logout failed');
-  //     }
-
-  //     // Clear the cookie (client-side)
-  //     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-  //     setAuthUser(false);
-  //     toast.success('Logged out successfully');
-  //     router.push('/login');
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error('Error logging out');
-  //   }
-  // };
+  const handleLogout = () => {
+    logout(undefined)
+      .unwrap()
+      .then(() => {
+        dispatch(setLogout());
+        toast.success('Logged out successfully');
+        router.push('/auth/login');
+      })
+      .catch(() => {
+        toast.error('Failed to log out');
+      });
+  }
 
   return (
     <header className="bg-gray-800 border-b border-gray-700 fixed w-full top-0 z-40 backdrop-blur-lg bg-opacity-80">
@@ -50,17 +42,28 @@ const Navbar = () => {
 
           {/* User Actions */}
           <div className="flex items-center gap-2">
+            {/* {links.map((link: NavLink, index: number) => (
+              <Link key={index} href={link.path}>
+                <LogOut className="h-5 w-5" />
+                <a
+                  onClick={link.onClick}
+                  className={`hover:text-gray-300`}
+                >
+                  {link.name}
+                </a>
+              </Link>
+            ))} */}
             {isAuthenticated ? (
               <>
                 <button
-                  onClick={onClick}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 px-3 py-1.5 text-white bg-gray-700 rounded-lg hover:bg-gray-600"
                 >
                   <LogOut className="h-5 w-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>
               </>
-            ) : (<></>)}
+            ) : (<>Not logged in</>)}
           </div>
         </div>
       </div>
