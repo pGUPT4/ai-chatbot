@@ -31,6 +31,7 @@ export default function useChatCreate() {
             .unwrap() // unwrap gets the response from mutation then decides to either resolve or reject the promise
             .then(() => {
                 dispatch(setAuth());
+                setInputValue({ message: '' });
             })
             .catch((error: any) => {
                 toast.error('Error sending message: ' + error.message + '');

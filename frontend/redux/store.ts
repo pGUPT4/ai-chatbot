@@ -17,7 +17,6 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
 	reducer: {
 		[apiSlice.reducerPath]: apiSlice.reducer,
-		// auth: authReducer,
 		auth: persistedReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
