@@ -10,16 +10,16 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isDeleted = useAppSelector((state) => state.auth.isDeleted);
+
+  console.log('isDeleted:', isDeleted);
 
   useEffect(() => {
     if (isAuthenticated == false){
       router.push('/auth/login')
     }
   })
-
-  // needs to be changed to if message is deleted or not boolean
-  const selectedUser = true;
 
   return (
     <div>
@@ -28,7 +28,7 @@ export default function Home() {
           <div className="flex items-center justify-center pt-20 px-4">
               <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
                   <div className="flex h-full rounded-lg overflow-hidden">
-                      {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+                      {isDeleted ? <NoChatSelected /> : <ChatContainer />}
                   </div>
               </div>
           </div>

@@ -2,11 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface AuthState {
     isAuthenticated: boolean;
-    isLoading: boolean;
+    isDeleted: boolean;
 }
 
 const initialState = {
 	isAuthenticated: false,
+	isDeleted: true,
 } as AuthState;
 
 const authSlice = createSlice({
@@ -19,8 +20,11 @@ const authSlice = createSlice({
 		setLogout: state => {
 			state.isAuthenticated = false;
 		},
+		deleteChats: state => {
+			state.isDeleted = false;
+		}
 	},
 });
 
-export const { setAuth, setLogout } = authSlice.actions;
+export const { setAuth, setLogout, deleteChats } = authSlice.actions;
 export default authSlice.reducer;

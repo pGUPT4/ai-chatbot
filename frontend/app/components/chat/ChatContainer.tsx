@@ -35,21 +35,6 @@ const ChatContainer = () => {
     }
   })
 
-  // const [messages, setMessages] = useState<Message[]>([]);
-  // const [isMessagesLoading, setIsMessagesLoading] = useState(true);
-  // const messageEndRef = useRef<HTMLDivElement | null>(null);
-
-  // const isMessagesLoading = false
-  // if (isMessagesLoading) {
-  //   return (
-  //     <div className="flex-1 flex flex-col overflow-auto">
-  //       <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
-  //       <MessageSkeleton />
-  //       <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit}/>
-  //     </div>
-  //   );
-  // }
-
   // Format message time (copied from the original formatMessageTime utility)
   const formatMessageTime = (timestamp: string) => {
     const date = new Date(timestamp);
