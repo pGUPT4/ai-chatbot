@@ -22,6 +22,7 @@ export default function LoginForm() {
       type: 'password',
       value: password,
       required: true,
+      isPassword: true,
     },
   ];
 

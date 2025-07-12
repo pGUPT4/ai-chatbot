@@ -5,7 +5,7 @@ import ChatHeader from './ChatHeader';
 import MessageInput from './MessageInput';
 import MessageSkeleton from './skeleton/MessageSkeleton';
 import { toast } from 'react-toastify';
-import {useChatCreate} from '../../hooks';
+import { useChatCreate } from '../../hooks';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 
@@ -26,27 +26,29 @@ const ChatContainer = () => {
   const router = useRouter();
 
   const {message, onChange, onSubmit} = useChatCreate();
+
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
 
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isMessagesLoading, setIsMessagesLoading] = useState(true);
-  const messageEndRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
-		if (isAuthenticated == false) {
-			router.push('/auth/login');
-		}
-	}, [isAuthenticated, router]);
+    if (isAuthenticated == false){
+      router.push('/auth/login')
+    }
+  })
 
-  if (isMessagesLoading) {
-    return (
-      <div className="flex-1 flex flex-col overflow-auto">
-        <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
-        <MessageSkeleton />
-        <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />
-      </div>
-    );
-  }
+  // const [messages, setMessages] = useState<Message[]>([]);
+  // const [isMessagesLoading, setIsMessagesLoading] = useState(true);
+  // const messageEndRef = useRef<HTMLDivElement | null>(null);
+
+  // const isMessagesLoading = false
+  // if (isMessagesLoading) {
+  //   return (
+  //     <div className="flex-1 flex flex-col overflow-auto">
+  //       <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
+  //       <MessageSkeleton />
+  //       <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit}/>
+  //     </div>
+  //   );
+  // }
 
   // Format message time (copied from the original formatMessageTime utility)
   const formatMessageTime = (timestamp: string) => {
@@ -56,10 +58,10 @@ const ChatContainer = () => {
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
-      <ChatHeader selectedUser={selectedUser} setSelectedUser={() => {}} />
+      <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
+        {/* {messages.map((message) => (
           <div
             key={message._id}
             className={`flex ${message.senderId === authUser?._id ? 'justify-end' : 'justify-start'} mb-4`}
@@ -100,7 +102,7 @@ const ChatContainer = () => {
               )}
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
 
       <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />

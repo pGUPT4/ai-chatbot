@@ -9,22 +9,22 @@ export const chatApiSlice = apiSlice.injectEndpoints({
                 body: { message },
             }),
         }),
-        getChats: builder.mutation({
+        getChats: builder.query({
             query: () => ({
                 url: `chat/all`,
             }),
         }),
-        deleteChat: builder.mutation({
+        deleteChat: builder.query({
             query: () => ({
                 url: `chat/delete`,
                 method: 'DELETE',
             }),
-        }),
+        })
     }),
 });
 
 export const {
     useCreateChatMutation,
-    useGetChatsMutation,
-    useDeleteChatMutation,
+    useGetChatsQuery,
+    useDeleteChatQuery,
 } = chatApiSlice;

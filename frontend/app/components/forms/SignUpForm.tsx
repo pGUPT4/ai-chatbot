@@ -22,6 +22,7 @@ export default function RegisterForm() {
       type: 'password',
       value: password,
       required: true,
+      isPassword: true,
     },
     {
       labelText: 'Confirm password',
@@ -29,6 +30,7 @@ export default function RegisterForm() {
       type: 'password',
       value: re_password,
       required: true,
+      isPassword: true,
     },
   ];
 

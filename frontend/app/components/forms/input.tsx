@@ -25,7 +25,7 @@ export default function Input({
   children,
   link,
   required = false,
-  isPassword = false,
+  isPassword,
   icon,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);

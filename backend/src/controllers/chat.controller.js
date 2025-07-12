@@ -13,6 +13,7 @@ export const generateChat = async (req, res) => {
       return res.status(401).json({ message: "User not registered OR Token malfunctioned" });
     }
 
+    // create a chat query
     const chats = (await findChatsByUserId(user.id)).map(({ role, content }) => ({
       role,
       content,
@@ -21,6 +22,7 @@ export const generateChat = async (req, res) => {
     const userMessage = { content: message, role: "user" };
     chats.push(userMessage);
 
+    // insert that chat qeury
     await createChat({
       id: uuidv4(),
       user_id: user.id,
@@ -28,6 +30,7 @@ export const generateChat = async (req, res) => {
       content: userMessage.content,
     });
 
+    // put that chat query for chatbot
     const config = configureOpenAI();
     const openai = new OpenAIApi(config);
     const chatResponse = await openai.createChatCompletion({
@@ -35,6 +38,7 @@ export const generateChat = async (req, res) => {
       messages: chats,
     });
 
+    // get that chatResponse and put it in the database
     const aiMessage = chatResponse.data.choices[0].message;
     await createChat({
       id: uuidv4(),
@@ -82,5 +86,15 @@ export const deleteChats = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(401).json({ message: "ERROR", cause: error.message });
+  }
+};
+
+
+export const chatCheckAuth = (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log('Error in checkAuth controller', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };

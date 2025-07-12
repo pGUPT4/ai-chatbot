@@ -1,24 +1,15 @@
 import { Send } from 'lucide-react';
 import { ChangeEvent, FormEvent } from 'react';
 
-// interface Message {
-//   _id: string;
-//   senderId: string;
-//   text?: string;
-//   createdAt: string;
-// }
-
 interface Props {
-  // messages: Message[];
   value?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const MessageInput = ({ 
-  // messages,
+const MessageInput = ({
   value,
-  onChange, 
+  onChange,
   onSubmit
  }: Props) => {
 
@@ -30,15 +21,11 @@ const MessageInput = ({
           <input
             type="text"
             className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:border-gray-400"
-            placeholder="Type a message..."
+            placeholder="ChatGPT here..."
             value={value}
             onChange={onChange}
           />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-          />
+
         </div>
         <button
           type="submit"

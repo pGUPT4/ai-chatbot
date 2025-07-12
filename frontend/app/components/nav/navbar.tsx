@@ -13,7 +13,7 @@ import { setLogout } from '@/redux/features/authSlice';
 const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated )
+  const isAuthenticated = useAppSelector( (state) => state.auth.isAuthenticated )
   const [logout] = useLogoutMutation();
 
   const handleLogout = () => {
@@ -42,17 +42,6 @@ const Navbar = () => {
 
           {/* User Actions */}
           <div className="flex items-center gap-2">
-            {/* {links.map((link: NavLink, index: number) => (
-              <Link key={index} href={link.path}>
-                <LogOut className="h-5 w-5" />
-                <a
-                  onClick={link.onClick}
-                  className={`hover:text-gray-300`}
-                >
-                  {link.name}
-                </a>
-              </Link>
-            ))} */}
             {isAuthenticated ? (
               <>
                 <button
@@ -63,7 +52,7 @@ const Navbar = () => {
                   <span className="hidden sm:inline">Logout</span>
                 </button>
               </>
-            ) : (<>Not logged in</>)}
+            ) : (<></>)}
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { setAuth } from '../../redux/features/authSlice';
 export default function useChatCreate() {
     const dispatch = useDispatch();
     const router = useRouter();
-
+    
     const [createChat, {isLoading}] = useCreateChatMutation();
 
     const [inputValue, setInputValue] = useState({
@@ -26,15 +26,18 @@ export default function useChatCreate() {
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        // error reason
         createChat({ message })
-            .unwrap()
+            .unwrap() // unwrap gets the response from mutation then decides to either resolve or reject the promise
             .then(() => {
                 dispatch(setAuth());
-                router.push('/');
             })
-            .catch(() => {
-                toast.error('Error in sending message');
+            .catch((error: any) => {
+                toast.error('Error sending message: ' + error.message + '');
+                console.error('Error:', error);
             });
+
+        console.log('Button pressed');
     };
 
     return {

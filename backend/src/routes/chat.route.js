@@ -1,7 +1,7 @@
 // backend/src/routes/chat.routes.js
 import { Router } from "express";
 import { protectRoute } from "../middleware/auth.middleware.js";
-import { deleteChats, generateChat, getChats } from "../controllers/chat.controller.js";
+import { chatCheckAuth, deleteChats, generateChat, getChats } from "../controllers/chat.controller.js";
 
 const chatRoutes = Router();
 

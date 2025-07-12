@@ -1,14 +1,25 @@
 'use client'
 
-
 import ChatContainer from "./components/chat/ChatContainer";
 import Navbar from "./components/nav/navbar";
 import NoChatSelected from "./components/chat/NoChatSelected";
+import { useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+
+  useEffect(() => {
+    if (isAuthenticated == false){
+      router.push('/auth/login')
+    }
+  })
 
   // needs to be changed to if message is deleted or not boolean
-  const selectedUser = false;
+  const selectedUser = true;
 
   return (
     <div>
