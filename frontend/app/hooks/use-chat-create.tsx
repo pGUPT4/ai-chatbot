@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useCreateChatMutation } from '../../redux/features/chatApiSlice';
 import { useDispatch } from 'react-redux';
-import { setAuth, deleteChats } from '../../redux/features/authSlice';
+import { setAuth, setDeleteChats } from '../../redux/features/authSlice';
 export default function useChatCreate() {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -30,7 +30,7 @@ export default function useChatCreate() {
             .unwrap() // unwrap gets the response from mutation then decides to either resolve or reject the promise
             .then(() => {
                 dispatch(setAuth());
-                dispatch(deleteChats());
+                dispatch(setDeleteChats(false));
                 setInputValue({ message: '' });
             })
             .catch((error: any) => {

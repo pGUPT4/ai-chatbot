@@ -20,11 +20,11 @@ const authSlice = createSlice({
 		setLogout: state => {
 			state.isAuthenticated = false;
 		},
-		deleteChats: state => {
-			state.isDeleted = false;
+		setDeleteChats: (state, action) => {
+			state.isDeleted = action.payload;
 		}
 	},
 });
 
-export const { setAuth, setLogout, deleteChats } = authSlice.actions;
+export const { setAuth, setLogout, setDeleteChats } = authSlice.actions;
 export default authSlice.reducer;

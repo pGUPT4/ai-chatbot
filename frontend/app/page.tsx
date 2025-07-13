@@ -13,7 +13,7 @@ export default function Home() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const isDeleted = useAppSelector((state) => state.auth.isDeleted);
 
-  console.log('isDeleted:', isDeleted);
+  console.log('isDeleted at home:', isDeleted);
 
   useEffect(() => {
     if (isAuthenticated == false){
