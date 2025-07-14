@@ -1,5 +1,5 @@
 import { createToken } from '../lib/utils.js';
-import { findUserByEmail, findUserById, createUser } from '../models/user.model.js';
+import { findUserByEmail, createUser } from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 

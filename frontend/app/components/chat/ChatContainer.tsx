@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatHeader from './ChatHeader';
 import MessageInput from './MessageInput';
+import EmptyMessageSkeleton from './skeleton/EmptyMessageSkeleton';
 import MessageSkeleton from './skeleton/MessageSkeleton';
 import { toast } from 'react-toastify';
-import { useChatCreate } from '../../hooks';
+import { useChatCreate, useChatGet } from '../../hooks';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 
 interface Message {
   _id: string;
@@ -26,8 +28,11 @@ const ChatContainer = () => {
   const router = useRouter();
 
   const {message, onChange, onSubmit} = useChatCreate();
+  const {isLoading} = useChatGet();
+  const messageRef = useRef(null);
 
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isDeleted = useAppSelector((state) => state.auth.isDeleted);
 
   useEffect(() => {
     if (isAuthenticated == false){
@@ -35,59 +40,12 @@ const ChatContainer = () => {
     }
   })
 
-  // Format message time (copied from the original formatMessageTime utility)
-  const formatMessageTime = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
-
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {/* {messages.map((message) => (
-          <div
-            key={message._id}
-            className={`flex ${message.senderId === authUser?._id ? 'justify-end' : 'justify-start'} mb-4`}
-            ref={messageEndRef}
-          >
-            <div className="flex items-start gap-2">
-              {message.senderId !== authUser?._id && (
-                <div className="w-10 h-10 rounded-full border">
-                  <img
-                    src={selectedUser.profilePic || '/avatar.png'}
-                    alt="profile pic"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-              )}
-              <div className="max-w-[70%]">
-                <div className="text-xs text-gray-400 mb-1">
-                  <time>{formatMessageTime(message.createdAt)}</time>
-                </div>
-                <div
-                  className={`p-3 rounded-lg ${
-                    message.senderId === authUser?._id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-600 text-white'
-                  }`}
-                >
-                  {message.text && <p>{message.text}</p>}
-                </div>
-              </div>
-              {message.senderId === authUser?._id && (
-                <div className="w-10 h-10 rounded-full border">
-                  <img
-                    src={authUser?.profilePic || '/avatar.png'}
-                    alt="profile pic"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        ))} */}
+        {isLoading ? <EmptyMessageSkeleton/> : <MessageSkeleton chats={[]} messageEndRef={messageRef} />}
       </div>
 
       <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />

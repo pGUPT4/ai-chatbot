@@ -33,6 +33,7 @@ export const initializeDatabase = async () => {
 // Initialize database when the module is imported
 initializeDatabase();
 
+// user authentication - START
 export const findUserByEmail = async (email) => {
   const pool = await connectDB();
   const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
@@ -54,7 +55,18 @@ export const createUser = async (userData) => {
   );
   return { id, email };
 };
+// user authentication - END
 
+// cookie management - START
+export const findChatsByUserId = async (userId) => {
+  const pool = await connectDB();
+  const [rows] = await pool.query('SELECT id, role, content FROM chats WHERE user_id = ?', [userId]);
+  return rows;
+};
+// cookie management - END
+
+
+// chat management - START
 export const createChat = async (chatData) => {
   const pool = await connectDB();
   const { id, user_id, role, content } = chatData;
@@ -65,13 +77,15 @@ export const createChat = async (chatData) => {
   return { id: id || uuidv4(), user_id, role, content };
 };
 
-export const findChatsByUserId = async (userId) => {
-  const pool = await connectDB();
-  const [rows] = await pool.query('SELECT id, role, content FROM chats WHERE user_id = ?', [userId]);
-  return rows;
-};
-
 export const deleteChatsByUserId = async (userId) => {
   const pool = await connectDB();
   await pool.query('DELETE FROM chats WHERE user_id = ?', [userId]);
 };
+
+export const checkCountChat = async (userId) => {
+  const pool = await connectDB();
+  const [results] = await pool.query('SELECT COUNT(*) as count FROM chats WHERE user_id = ?', [userId]);
+  
+  return results.count === 0;
+};
+// chat management - END

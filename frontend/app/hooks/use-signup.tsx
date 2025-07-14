@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useSignupMutation } from '@/redux/features/authApiSlice';
 import { useDispatch } from 'react-redux';
 

@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { set } from 'lodash';
 
 interface AuthState {
     isAuthenticated: boolean;
-    isDeleted: boolean;
+	isDeleted: boolean;
+	interactionCount?: number;
 }
 
 const initialState = {
 	isAuthenticated: false,
-	isDeleted: true,
+	isDeleted: false,
+	interactionCount: 0,
 } as AuthState;
 
 const authSlice = createSlice({
@@ -20,11 +23,11 @@ const authSlice = createSlice({
 		setLogout: state => {
 			state.isAuthenticated = false;
 		},
-		setDeleteChats: (state, action) => {
+		setDeleted: (state, action) => {
 			state.isDeleted = action.payload;
 		}
 	},
 });
 
-export const { setAuth, setLogout, setDeleteChats } = authSlice.actions;
+export const { setAuth, setLogout, setDeleted } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,8 +1,7 @@
-import { findUserById, findChatsByUserId, createChat, deleteChatsByUserId } from "../models/user.model.js";
+import { findChatsByUserId, createChat, deleteChatsByUserId, checkCountChat } from "../models/user.model.js";
 import { configureOpenAI } from "../lib/openai-config.js";
 import { OpenAIApi } from "openai";
 import { v4 as uuidv4 } from "uuid";
-
 
 export const generateChat = async (req, res) => {
   const { message } = req.body;
@@ -89,12 +88,19 @@ export const deleteChats = async (req, res) => {
   }
 };
 
-
-export const chatCheckAuth = (req, res) => {
+export const checkCountChatById = async (req, res) => {
   try {
-    res.status(200).json(req.user);
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "User not registered OR Token malfunctioned" });
+    }
+    if (user.id !== req.user.id) {
+      return res.status(401).json({ message: "Permissions didn't match" });
+    }
+    
+    const isDeleted = await checkCountChat(user.id);
+    return res.status(200).json({ isDeleted });
   } catch (error) {
-    console.log('Error in checkAuth controller', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
+    return res.status(500).json({ message: "Something went wrong", cause: error.message });
   }
-};
+}

@@ -1,4 +1,3 @@
-import { FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from '../../redux/features/authApiSlice';
