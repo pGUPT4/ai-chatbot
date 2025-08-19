@@ -1,7 +1,6 @@
-import { findChatsByUserId, createChat, deleteChatsByUserId, checkCountChat } from "../models/user.model.js";
+import { findChatsByUserId, createChat, deleteChatsByUserId, isEmptyChat } from "../models/user.model.js";
 import { configureOpenAI } from "../lib/openai-config.js";
 import { OpenAIApi } from "openai";
-import { v4 as uuidv4 } from "uuid";
 
 export const generateChat = async (req, res) => {
   const { message } = req.body;
@@ -13,20 +12,19 @@ export const generateChat = async (req, res) => {
     }
 
     // create a chat query
-    const chats = (await findChatsByUserId(user.id)).map(({ role, content }) => ({
+    const chats = (await findChatsByUserId(user.id)).map(({ role, message }) => ({
       role,
-      content,
+      content : message,
     }));
 
-    const userMessage = { content: message, role: "user" };
+    const userMessage = { content: message, role: 'user' };
     chats.push(userMessage);
 
     // insert that chat qeury
     await createChat({
-      id: uuidv4(),
       user_id: user.id,
       role: userMessage.role,
-      content: userMessage.content,
+      message: userMessage.content,
     });
 
     // put that chat query for chatbot
@@ -40,10 +38,9 @@ export const generateChat = async (req, res) => {
     // get that chatResponse and put it in the database
     const aiMessage = chatResponse.data.choices[0].message;
     await createChat({
-      id: uuidv4(),
       user_id: user.id,
       role: aiMessage.role,
-      content: aiMessage.content,
+      message: aiMessage.content,
     });
 
     const updatedChats = await findChatsByUserId(user.id);
@@ -88,7 +85,7 @@ export const deleteChats = async (req, res) => {
   }
 };
 
-export const checkCountChatById = async (req, res) => {
+export const checkEmptyChat = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
@@ -98,7 +95,7 @@ export const checkCountChatById = async (req, res) => {
       return res.status(401).json({ message: "Permissions didn't match" });
     }
     
-    const isDeleted = await checkCountChat(user.id);
+    const isDeleted = await isEmptyChat(user.id);
     return res.status(200).json({ isDeleted });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong", cause: error.message });

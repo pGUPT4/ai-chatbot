@@ -20,6 +20,11 @@ export const chatApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
             }),
         }),
+        checkEmptyChat: builder.query({
+            query: () => ({
+                url: `chat/check-empty`,
+            }),
+        }),
     }),
 });
 
@@ -27,4 +32,5 @@ export const {
     useCreateChatMutation,
     useGetChatsQuery,
     useDeleteChatMutation,
+    useCheckEmptyChatQuery,
 } = chatApiSlice;

@@ -15,10 +15,10 @@ export const initializeDatabase = async () => {
     // Create chats table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS chats (
-        id VARCHAR(36) PRIMARY KEY,
         user_id VARCHAR(36) NOT NULL,
-        role VARCHAR(50) NOT NULL,
-        content TEXT NOT NULL,
+        role ENUM('user', 'assistant') NOT NULL,
+        message TEXT NOT NULL,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )
     `);
@@ -48,7 +48,7 @@ export const findUserById = async (id) => {
 
 export const createUser = async (userData) => {
   const pool = await connectDB();
-  const { id, name, email, password } = userData;
+  const { id, email, password } = userData;
   await pool.query(
     'INSERT INTO users (id, email, password) VALUES (?, ?, ?)',
     [id, email, password]
@@ -57,24 +57,24 @@ export const createUser = async (userData) => {
 };
 // user authentication - END
 
-// cookie management - START
+// chat cookie management - START
 export const findChatsByUserId = async (userId) => {
   const pool = await connectDB();
-  const [rows] = await pool.query('SELECT id, role, content FROM chats WHERE user_id = ?', [userId]);
+  const [rows] = await pool.query('SELECT role, message, timestamp FROM chats WHERE user_id = ? ORDER BY timestamp ASC', [userId]);
   return rows;
 };
-// cookie management - END
+// chat cookie management - END
 
 
 // chat management - START
 export const createChat = async (chatData) => {
   const pool = await connectDB();
-  const { id, user_id, role, content } = chatData;
-  await pool.query(
-    'INSERT INTO chats (id, user_id, role, content) VALUES (?, ?, ?, ?)',
-    [id || uuidv4(), user_id, role, content]
+  const { user_id, role, message } = chatData;
+  const [rows] = await pool.query(
+    'INSERT INTO chats (user_id, role, message) VALUES (?, ?, ?)',
+    [user_id, role, message]
   );
-  return { id: id || uuidv4(), user_id, role, content };
+  return rows;
 };
 
 export const deleteChatsByUserId = async (userId) => {
@@ -82,7 +82,7 @@ export const deleteChatsByUserId = async (userId) => {
   await pool.query('DELETE FROM chats WHERE user_id = ?', [userId]);
 };
 
-export const checkCountChat = async (userId) => {
+export const isEmptyChat = async (userId) => {
   const pool = await connectDB();
   const [results] = await pool.query('SELECT COUNT(*) as count FROM chats WHERE user_id = ?', [userId]);
   
