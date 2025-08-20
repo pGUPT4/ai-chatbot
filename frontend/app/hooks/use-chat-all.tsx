@@ -13,7 +13,7 @@ export default function useChatAll() {
 
     // Map API response to match MessageSkeleton's expected Chat interface
     const chats = data?.chats?.map((chat: any, index : any) => ({
-        id: `${chat.timestamp}-${index}`, // Generate unique ID (since API doesn't provide one)
+        id: `${chat.timestamp}-${index}`,
         role: chat.role,
         content: chat.message, // Map 'message' to 'content'
     })) || [];

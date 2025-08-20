@@ -6,17 +6,15 @@ import NoChatSelected from "./components/chat/NoChatSelected";
 import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCheckEmptyChatQuery } from "@/redux/features/chatApiSlice";
-import useChatCheck from "./hooks/use-chat-check";
+import { useChatAll } from "./hooks";
 
 export default function Home() {
   const router = useRouter();
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  const {isEmpty} = useChatCheck();
-  
-  
+  const { chats, isLoading } = useChatAll();
+
   useEffect(() => {
     if (isAuthenticated == false){
       router.push('/auth/login')
@@ -30,7 +28,16 @@ export default function Home() {
           <div className="flex items-center justify-center pt-20 px-4">
               <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
                   <div className="flex h-full rounded-lg overflow-hidden">
-                    {isEmpty ? <NoChatSelected /> : <ChatContainer />}
+
+                    {isLoading ? (
+                      <div className="flex items-center justify-center w-full h-full">
+                        Loading...
+                      </div>
+                    ) : chats.length === 0 ? (
+                      <NoChatSelected />
+                    ) : (
+                      <ChatContainer />
+                    )}
                   </div>
               </div>
           </div>
