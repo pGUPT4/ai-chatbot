@@ -14,7 +14,6 @@ interface Props {
 const ChatHeader = () => {
   const { onClick } = useChatDelete();
 
-
   return (
     <div className="p-2.5 border-b border-gray-700">
       <div className="flex items-center justify-between">

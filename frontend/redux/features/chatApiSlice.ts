@@ -21,6 +21,7 @@ export const chatApiSlice = apiSlice.injectEndpoints({
                 url: `chat/delete`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Chats'],
         }),
         checkEmptyChat: builder.query({
             query: () => ({
