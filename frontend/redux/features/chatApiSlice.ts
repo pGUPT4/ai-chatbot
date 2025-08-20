@@ -8,11 +8,13 @@ export const chatApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { message },
             }),
+            invalidatesTags: ['Chats'],
         }),
         getChats: builder.query({
             query: () => ({
                 url: `chat/all`,
             }),
+            providesTags: ['Chats'],
         }),
         deleteChat: builder.mutation({
             query: () => ({

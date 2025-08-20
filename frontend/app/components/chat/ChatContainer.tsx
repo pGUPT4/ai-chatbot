@@ -6,7 +6,7 @@ import MessageInput from './MessageInput';
 import EmptyMessageSkeleton from './skeleton/EmptyMessageSkeleton';
 import MessageSkeleton from './skeleton/MessageSkeleton';
 import { toast } from 'react-toastify';
-import { useChatCreate, useChatGet } from '../../hooks';
+import { useChatCreate, useChatAll } from '../../hooks';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -28,11 +28,11 @@ const ChatContainer = () => {
   const router = useRouter();
 
   const {message, onChange, onSubmit} = useChatCreate();
-  const {isLoading} = useChatGet();
+  const {chats, isLoading} = useChatAll();
   const messageRef = useRef(null);
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const isDeleted = useAppSelector((state) => state.auth.isDeleted);
+  // const isDeleted = useAppSelector((state) => state.auth.isDeleted);
 
   useEffect(() => {
     if (isAuthenticated == false){
@@ -45,7 +45,7 @@ const ChatContainer = () => {
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {isLoading ? <EmptyMessageSkeleton/> : <MessageSkeleton chats={[]} messageEndRef={messageRef} />}
+        {isLoading ? <EmptyMessageSkeleton/> : <MessageSkeleton chats={chats} messageEndRef={messageRef} />}
       </div>
 
       <MessageInput value = {message} onChange={onChange} onSubmit={onSubmit} />

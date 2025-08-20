@@ -22,10 +22,10 @@ const MessageSkeleton = ({chats, messageEndRef}: Props) => {
                 ref={messageEndRef}
             >
                 <div className="flex items-start gap-2">
-                {chat.role !== "user" && (
+                {chat.role === "assistant" && (
                     <div className="w-10 h-10 rounded-full border">
                     <img
-                        src={'/user-avatar.png'}
+                        src={'/assistant.png'}
                         alt="profile pic"
                         className="w-full h-full rounded-full object-cover"
                     />
@@ -45,7 +45,7 @@ const MessageSkeleton = ({chats, messageEndRef}: Props) => {
                 {chat.role === "user" && (
                     <div className="w-10 h-10 rounded-full border">
                     <img
-                        src={'/user-avatar.png'}
+                        src={'/user.png'}
                         alt="profile pic"
                         className="w-full h-full rounded-full object-cover"
                     />
